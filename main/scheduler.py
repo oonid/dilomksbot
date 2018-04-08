@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import xml.etree.ElementTree as ElementTree
+from datetime import datetime
 
 from flask import Blueprint, request
 from logging import info, error
@@ -8,6 +9,8 @@ from logging import info, error
 from google.appengine.api import urlfetch  # replace with urllib2 or requests for development
 
 from telegram import send_message_to_dilo_mks_group
+from datastore import DiloEvent
+
 
 __author__ = 'oon arfiandwi'
 
@@ -56,11 +59,29 @@ Event kali ini tentang <strong>{}</strong>\n
 def visit_dilo_makassar():
 
     if request.method == 'GET':
-        event = get_dilo_makassar_event(0)
-        if event:  # found event, not None
-            info(event['title'])
-            info(event['link'])
-            info(event['description'])
-            send_message_to_dilo_mks_group(get_event_message(event['title'], event['link']))
+        for idx in range(0, 10):  # check last 10 events
+            event = get_dilo_makassar_event(idx)
+            if event:  # found event, not None
+                info(event['title'])
+                info(event['link'])
+                info(event['description'])
+                # using Google Datastore as Database
+                diloevent = DiloEvent.get_by_id(event['link'])  # link is unique, so we use it as id
+                if diloevent is None:
+
+                    # save to datastore only if "new" event
+                    diloevent = DiloEvent(id=event['link'],
+                                          title=event['link'],
+                                          link=event['link'],
+                                          description=event['link'],
+                                          sendnotification=False,
+                                          updated=datetime.utcnow())
+                    diloevent.put()
+
+                if not diloevent.sendnotification:
+                    # send notification only if "new" event (not sendnotification yet)
+                    send_message_to_dilo_mks_group(get_event_message(event['title'], event['link']))
+                    diloevent.sendnotification = True  # update datastore after send notification
+                    diloevent.put()
 
     return ''

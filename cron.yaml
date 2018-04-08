@@ -1,0 +1,4 @@
+cron:
+- description: "check latest events at DILo Makassar"
+  url: /scheduler/visit-dilo-makassar
+  schedule: every 59 mins
