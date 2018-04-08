@@ -1,0 +1,14 @@
+*.env
+.idea/
+*.iml
+.Python
+*.pyc
+pip-selfcheck.json
+bin/*
+lib/*
+include/*
+local/*
+share/*
+# don't include third-party dependencies.
+!lib/README.md
+.DS_Store

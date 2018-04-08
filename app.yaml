@@ -1,0 +1,16 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: .*  # This regex directs all routes to application.application
+  script: application.application
+
+libraries:
+- name: ssl
+  version: latest
+
+# copy from .env
+env_variables:
+  TELEGRAM_GROUP_DILO_MKS_ID: -1
+  TELEGRAM_TOKEN: ''
