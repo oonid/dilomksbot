@@ -8,7 +8,7 @@ from logging import info, error
 
 from google.appengine.api import urlfetch  # replace with urllib2 or requests for development
 
-from telegram import send_message_to_dilo_mks_group
+from telegram import broadcast_to_telegram_groups
 from datastore import DiloEvent
 
 
@@ -71,16 +71,16 @@ def visit_dilo_makassar():
 
                     # save to datastore only if "new" event
                     diloevent = DiloEvent(id=event['link'],
-                                          title=event['link'],
+                                          title=event['title'],
                                           link=event['link'],
-                                          description=event['link'],
+                                          description=event['description'],
                                           sendnotification=False,
                                           updated=datetime.utcnow())
                     diloevent.put()
 
                 if not diloevent.sendnotification:
                     # send notification only if "new" event (not sendnotification yet)
-                    send_message_to_dilo_mks_group(get_event_message(event['title'], event['link']))
+                    broadcast_to_telegram_groups(get_event_message(diloevent.title, diloevent.link))
                     diloevent.sendnotification = True  # update datastore after send notification
                     diloevent.put()
 

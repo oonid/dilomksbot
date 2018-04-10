@@ -15,3 +15,12 @@ class DiloEvent(ndb.Model):
     description = ndb.TextProperty()
     sendnotification = ndb.BooleanProperty(required=True, default=False)
     updated = ndb.DateTimeProperty()
+
+
+class TelegramGroup(ndb.Model):
+    """using Google Datastore as Database
+    this is Model to save Telegram Group which receive notification broadcast
+    """
+    tgid = ndb.IntegerProperty(required=True)
+    info = ndb.StringProperty()  # only remark, optional
+    updated = ndb.DateTimeProperty()

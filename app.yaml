@@ -12,5 +12,5 @@ libraries:
 
 # copy from .env
 env_variables:
-  TELEGRAM_GROUP_DILO_MKS_ID: -1
+  TELEGRAM_DILOMKSBOT_ID: 585556388
   TELEGRAM_TOKEN: ''

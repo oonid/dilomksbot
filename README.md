@@ -9,11 +9,13 @@ Important steps
 ### Prerequisites
 
 * Create Telegram bot by contacting @BotFather (currently [@DiLoMksBot](https://telegram.com/dilomksbot))
-* Create Google App Engine project for Python (eg: xxyyzz.appspot.com)
+* Create Google App Engine project for Python (eg: xxyyzz.appspot.com), Free version (billing not active) is OK
 
 ## Built With
 
 * [Flask](http://flask.pocoo.org//) - The web framework used
+
+Check requirements.txt for any details.
 
 ## Installation
 
